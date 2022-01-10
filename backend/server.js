@@ -1,6 +1,9 @@
-require('dotenv').config({path: 'backend/config/config.env'});
 const connectDB = require('./config/database');
 const app = require('./app');
+
+if (process.env.NODE_ENV !== "PRODUCTION") {
+    require('dotenv').config({path: 'backend/config/config.env'});
+}
 
 // connect to DB
 connectDB();
