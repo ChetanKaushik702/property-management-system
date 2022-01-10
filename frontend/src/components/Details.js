@@ -8,7 +8,7 @@ function Details(props) {
                 <li>Name: {property.name}</li>
                 <li>Description: {property.description}</li>
                 <li>Size: {property.size} (in sq. feet)</li> 
-                <button onClick={() => props.delete(property.id)}>Delete</button>
+                <button onClick={() => props.delete(property._id.toString())}>Delete</button>
             </ul>
         </div>
     )

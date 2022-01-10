@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Details from './Details';
+import axios from 'axios';
 
 function Property() {
 
@@ -15,10 +16,21 @@ function Property() {
         const { name, value } = e.target;
         setProperty({ ...property, [name] : value });
     }
-
+    
     const handleSubmit = (e) => {
         e.preventDefault();
-        setDetails([...details, {...property, id: details.length}]);
+        const config = { headers: { "Content-Type": "application/json" } };
+        axios.post(`/api/v1/property/add`, property, config)
+        .then(res => {
+            alert('Data added successfully!');
+            const { data } = res;
+            setDetails([...data.properties]);
+        })
+        .catch(err => {
+            alert('Oops! An unexpected error occurred while adding the record!!');
+            console.log(err);
+        });
+        
     }
 
     const handleReset = () => {
@@ -26,10 +38,25 @@ function Property() {
     }
 
     const deleteDetails = (id) => {
-        setDetails(details => {
-            return details.filter(property => property.id !== id);
-        });
+        axios.delete(`/api/v1/property/delete/${id}`)
+        .then(res => {
+            alert('Record deleted successfully!');
+            const { data } = res;
+            setDetails([...data.properties]);
+        })
+        .catch(err => {
+            alert('Oops! An unexpected error occurred while deleting a record!!');
+            console.log(err);
+        })
     }
+
+    useEffect(() => {
+        axios.get(`/api/v1/property/get`)
+        .then(res => {
+            const { data } = res;
+            setDetails([...data.properties]);
+        })
+    }, []);
 
     return (
         <>
@@ -55,8 +82,8 @@ function Property() {
             <hr/>
             <h3 style={{textAlign: 'center', marginTop: '20px'}}>Properties Added</h3>
             {
-                details && details.map((property, id) => (
-                    <Details key={id} property={property} delete={deleteDetails}/>
+                details && details.map((property) => (
+                    <Details key={property._id.toString()} property={property} delete={deleteDetails}/>
                 ))
             }
         </>
