@@ -1,6 +1,9 @@
 # Getting Started with Create React App
 
 Link to the first task [Property Mangement Task-1](https://chetan-kaushik-task.netlify.app/).
+
+Link to the complete task [Property Management](https://property-mangement.herokuapp.com/).
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
